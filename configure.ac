@@ -89,8 +89,9 @@ AS_IF([test "x$enable_unit" != xno], [
     AC_CHECK_PROG([tpm_server], [tpm_server],
         [yes], [no])
 
+    AM_CONDITIONAL([HAVE_ABRMD], [test "$tpm2_abrmd" = yes])
     AS_IF([test "$tpm2_abrmd" = no],
-          [AC_MSG_ERROR([Required executable tpm2_abrmd not found, try setting PATH])])
+          [AC_MSG_WARN([tpm2_abrmd not found, tests are run without abrmd, try setting PATH])])
 
     AS_IF([test "$tpm_server" = no],
           [AC_MSG_ERROR([Required executable tpm_server not found, try setting PATH])])
