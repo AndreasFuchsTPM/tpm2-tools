@@ -1,0 +1,22 @@
+# bash completion for tss2_pcrextend                      -*- shell-script -*-
+
+_tss2_pcrextend()
+{
+    local cur prev words cword split
+    _init_completion -s || return
+    case $prev in
+        -!(-*)h | --help)
+            COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
+            return;;
+        -!(-*)[cdl] | --pcr | --data | --logData)
+            return;;
+    esac
+
+    $split && return
+
+    COMPREPLY=( $(compgen -W "-h --help -v --version -c -d --pcr --data --logData -l -- "$cur") )
+    [[ $COMPREPLY == *= ]] && compopt -o nospace
+} &&
+complete -F _tss2_pcrextend tss2_pcrextend
+
+# ex: filetype=sh

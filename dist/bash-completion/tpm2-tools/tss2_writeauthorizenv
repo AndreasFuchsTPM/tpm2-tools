@@ -1,0 +1,28 @@
+# bash completion for tss2_writeauthorizenv                        -*- shell-script -*-
+
+_tss2_writeauthorizenv()
+{
+    local cur prev words cword split
+    _init_completion -s || return
+    case $prev in
+        -!(-*)h | --help)
+            COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
+            return;;
+        -!(-*)n | --nvPath)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+        -!(-*)l | --policyPath )
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+    esac
+
+    $split && return
+
+    COMPREPLY=( $(compgen -W "-h --help -v --version --nvPath= -n -policyPath= -l" -- "$cur") )
+    [[ $COMPREPLY == *= ]] && compopt -o nospace
+} &&
+complete -F _tss2_writeauthorizenv tss2_writeauthorizenv
+
+# ex: filetype=sh

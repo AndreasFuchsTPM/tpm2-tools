@@ -1,0 +1,24 @@
+# bash completion for tss2_decrypt -*- shell-script -*-
+
+_tss2_decrypt()
+{
+    local cur prev words cword split
+    _init_completion -s || return
+    case $prev in
+        -!(-*)h | --help)
+            COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
+            return;;
+        -!(-*)[kpc] | --keyPath | --plainText | --cipherText)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+    esac
+
+    $split && return
+
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -c --cipherText= --plainText= -p --keyPath= -k" -- "$cur") )
+    [[ $COMPREPLY == *= ]] && compopt -o nospace
+} &&
+complete -F _tss2_decrypt tss2_decrypt
+
+# ex: filetype=sh

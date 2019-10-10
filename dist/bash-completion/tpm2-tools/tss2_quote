@@ -1,0 +1,26 @@
+# bash completion for tss2_quote                       -*- shell-script -*-
+
+_tss2_quote()
+{
+    local cur prev words cword split
+    _init_completion -s || return
+    case $prev in
+        -!(-*)h | --help)
+            COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
+            return;;
+        -!(-*)[slqdc] | --signature | --pcrLog | --quoteInfo | --qualifyingData | --certificate)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+        -!(-*)[Lk] | --pcrList | --keyPath)
+            return;;
+    esac
+
+    $split && return
+
+    COMPREPLY=( $(compgen -W "-h --help -v --version -L -l -d -s -f -k -d -q -c --pcrList= --qualifyingData= --pcrLog= --force --path= --quoteInfo= --signature= --certificate= " -- "$cur") )
+    [[ $COMPREPLY == *= ]] && compopt -o nospace
+} &&
+complete -F _tss2_quote tss2_quote
+
+# ex: filetype=sh

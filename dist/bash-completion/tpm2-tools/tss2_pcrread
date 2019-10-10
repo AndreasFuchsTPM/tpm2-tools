@@ -1,0 +1,26 @@
+# bash completion for tss2_pcrread                 -*- shell-script -*-
+
+_tss2_pcrread()
+{
+    local cur prev words cword split
+    _init_completion -s || return
+    case $prev in
+        -!(-*)h | --help)
+            COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
+            return;;
+        -!(-*)i | --pcrIndex)
+            return;;
+        -!(-*)[cl] | --pcrValue | --pcrLog)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+    esac
+
+    $split && return
+
+    COMPREPLY=( $(compgen -W "-h --help -v --version --pcrValue= --pcrIndex= --force -f --pcrLog= -c -i -f -l" -- "$cur") )
+    [[ $COMPREPLY == *= ]] && compopt -o nospace
+} &&
+complete -F _tss2_pcrread tss2_pcrread
+
+# ex: filetype=sh
