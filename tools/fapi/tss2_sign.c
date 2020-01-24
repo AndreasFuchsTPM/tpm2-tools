@@ -81,7 +81,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         fprintf (stderr, "signature missing, use --signature=\n");
         return -1;
     }
-    if(ctx.publicKey && ctx.certificate){
+    if (ctx.publicKey && ctx.certificate){
         if (!strcmp ("-", ctx.signature) + !strcmp ("-", ctx.publicKey) +
             !strcmp("-", ctx.certificate ? ctx.certificate : "") > 1) {
             fprintf (stderr, "At most one of --certificate, --publicKey and "\
@@ -89,14 +89,14 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
             return -1;
         }
     }
-    if(ctx.publicKey && !ctx.certificate){
+    if (ctx.publicKey && !ctx.certificate){
         if (!strcmp ("-", ctx.signature) + !strcmp ("-", ctx.publicKey) > 1) {
             fprintf (stderr, "At most one of --publicKey and --signature can "\
                 "be '-' (standard output)\n");
             return -1;
         }
     }
-    if(ctx.certificate && !ctx.publicKey){
+    if (ctx.certificate && !ctx.publicKey){
         if (!strcmp ("-", ctx.signature) + !strcmp("-",
             ctx.certificate ? ctx.certificate : "") > 1) {
             fprintf (stderr, "At most one of --certificate and --signature can"\
@@ -115,7 +115,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         return 1;
     }
 
-    if(ctx.certificate){
+    if (ctx.certificate){
         r = open_read_and_close (ctx.certificate, (void**)&certificate,
             &digestSize);
         if (r){
@@ -137,7 +137,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
 
     /* Write returned data to file(s) */
     if (ctx.certificate) {
-        if(certificate && strlen(certificate)){
+        if (certificate && strlen(certificate)){
             r = open_write_and_close (ctx.certificate, ctx.overwrite,
                 certificate, strlen(certificate));
             if (r) {

@@ -65,7 +65,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     }
 
     char *logData = NULL;
-    if(ctx.logData){
+    if (ctx.logData){
         TSS2_RC r = open_read_and_close (ctx.logData, (void**)&logData, 0);
         if (r){
             LOG_PERR ("open_read_and_close logData", r);
@@ -81,7 +81,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         return 1;
     }
     Fapi_Free (data);
-    if(logData){
+    if (logData){
         Fapi_Free (logData);
     }
 

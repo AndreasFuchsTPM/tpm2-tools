@@ -87,27 +87,27 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Write returned data to file(s) */
     r = open_write_and_close (ctx.pcrValue, ctx.overwrite, pcrValue,
         pcrValueSize);
-    if(r){
+    if (r){
         LOG_PERR ("open_write_and_close pcrValue", r);
         return 1;
     }
-    if(pcrLog){
+    if (pcrLog){
         r =  open_write_and_close (ctx.pcrLog, ctx.overwrite, pcrLog, 0);
     }
     else{
         r =  open_write_and_close (ctx.pcrLog, ctx.overwrite, "", 0);
     }
-    if(r){
+    if (r){
         LOG_PERR ("open_write_and_close pcrLog", r);
         Fapi_Free (pcrValue);
-        if(pcrLog){
+        if (pcrLog){
             Fapi_Free (pcrLog);
         }
         return 1;
     }
 
     Fapi_Free (pcrValue);
-    if(pcrLog){
+    if (pcrLog){
         Fapi_Free (pcrLog);
     }
     return r;

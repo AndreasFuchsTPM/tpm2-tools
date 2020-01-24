@@ -45,7 +45,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.entityPath) {
         fprintf (stderr, "No entity path provided, use --entityPath=\n");
-        if(ctx.authValue){
+        if (ctx.authValue){
             free (ctx.authValue);
         }
         return -1;
@@ -58,7 +58,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         return 1;
     }
 
-    if(ctx.authValue){
+    if (ctx.authValue){
         free (ctx.authValue);
     }
 

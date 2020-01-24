@@ -60,7 +60,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     TSS2_RC r;
     uint8_t *policyRef = NULL;
     size_t policyRefSize = 0;
-    if(ctx.policyRef){
+    if (ctx.policyRef){
         r = open_read_and_close (ctx.policyRef, (void**)&policyRef,
             &policyRefSize);
         if (r){

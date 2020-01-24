@@ -265,7 +265,7 @@ TSS2_RC branch_callback(
 static FAPI_CONTEXT* ctx_init(char const * uri) {
     FAPI_CONTEXT* ret;
     const unsigned int rval = Fapi_Initialize(&ret, uri);
-    if(rval != TSS2_RC_SUCCESS){
+    if (rval != TSS2_RC_SUCCESS){
         LOG_PERR("Fapi_Initialize", rval);
         return NULL;
     }

@@ -113,7 +113,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         free (signature);
         return -1;
     }
-    if(pcrEventLog){
+    if (pcrEventLog){
         r = open_read_and_close (ctx.pcrEventLog, (void**)&pcrEventLog, NULL);
         if (r) {
             LOG_PERR ("open_read_and_close pcrEventLog", r);

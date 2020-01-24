@@ -63,7 +63,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 /* Execute specific tool */
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
-    if(!ctx.authValue){
+    if (!ctx.authValue){
         ctx.authValue = "";
     }
     if (!ctx.policyPath) {

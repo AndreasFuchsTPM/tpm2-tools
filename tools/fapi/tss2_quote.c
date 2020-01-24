@@ -179,10 +179,10 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
 
     /* Write returned data to file(s) */
     r = open_write_and_close (ctx.quoteInfo, ctx.overwrite, quoteInfo, 0);
-    if(r){
+    if (r){
         LOG_PERR ("open_write_and_close quoteInfo", r);
         Fapi_Free (quoteInfo);
-        if(pcrEventLog){
+        if (pcrEventLog){
             Fapi_Free (pcrEventLog);
         }
         Fapi_Free (signature);
@@ -191,10 +191,10 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
 
     Fapi_Free (quoteInfo);
 
-    if(pcrEventLog){
+    if (pcrEventLog){
         r = open_write_and_close (ctx.pcrEventLog, ctx.overwrite, pcrEventLog,
             0);
-        if(r){
+        if (r){
             LOG_PERR ("open_write_and_close pcrEventLog", r);
             Fapi_Free (pcrEventLog);
             Fapi_Free (signature);

@@ -100,7 +100,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         Fapi_Free (tpm2bPublic);
         return 1;
     }
-    if(policy){
+    if (policy){
         r = open_write_and_close (ctx.policy, ctx.overwrite, policy,
             strlen(policy));
         if (r){
