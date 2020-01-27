@@ -8,17 +8,17 @@ _tss2_exportkey()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)e | --exportedData)
+        -!(-*)[o] | --exportedData )
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)[pP] | --pathOfKeyToDuplicate | --pathToPublicKeyOfNewParent)
+        -!(-*)[pe] | --pathOfKeyToDuplicate | --pathToPublicKeyOfNewParent)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --exportedData= -e --force -f --pathOfKeyToDuplicate= -p --pathToPublicKeyOfNewParent= -P" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --exportedData -o --force -f --pathOfKeyToDuplicate -p --pathToPublicKeyOfNewParent -e" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_exportkey tss2_exportkey

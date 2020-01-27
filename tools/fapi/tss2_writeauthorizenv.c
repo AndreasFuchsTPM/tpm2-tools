@@ -18,10 +18,10 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'n':
+    case 'p':
         ctx.nvPath = value;
         break;
-    case 'l':
+    case 'P':
         ctx.policyPath = value;
         break;
     }
@@ -31,10 +31,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"nvPath"  , required_argument, NULL, 'n'},
-        {"policyPath"  , required_argument, NULL, 'l'}
+        {"nvPath"  , required_argument, NULL, 'p'},
+        {"policyPath"  , required_argument, NULL, 'P'}
     };
-    return (*opts = tpm2_options_new ("n:l:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("p:P:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -42,11 +42,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.nvPath) {
-        fprintf (stderr, "No NV path provided, use --nvPath=\n");
+        fprintf (stderr, "No NV path provided, use --nvPath\n");
         return -1;
     }
     if (!ctx.policyPath) {
-        fprintf (stderr, "No policy path provided, use --policyPath=\n");
+        fprintf (stderr, "No policy path provided, use --policyPath\n");
         return -1;
     }
 

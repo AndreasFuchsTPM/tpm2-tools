@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-L**, **\--pcrList**:
+  * **-x**, **\--pcrList**:
 
     An array holding the PCR indices to quote against. MUST NOT be NULL.
 
-  * **-d**, **\--qualifyingData**:
+  * **-Q**, **\--qualifyingData**:
 
     A nonce provided by the caller to ensure freshness of the signature. MAY be
     NULL.
@@ -35,7 +35,7 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-k**, **\--keyPath**=:
+  * **-p**, **\--keyPath**:
 
     Identifies the signing key. MUST NOT be NULL.
 
@@ -43,7 +43,7 @@ These are the available options:
 
     Returns a JSON-encoded structure holding the inputs to the quote operation. This includes the digest value and PCR values. MUST NOT be NULL.
 
-  * **-s**, **\--signature**:
+  * **-o**, **\--signature**:
 
     Returns the signature over the quoted material. MUST NOT be NULL.
 

@@ -8,17 +8,17 @@ _tss2_nvextend()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)d | --data)
+        -!(-*)[il] | --data |  --logData)
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)[nl] | --nvPath | --logData)
+        -!(-*)[p] | --nvPath )
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --policy-path= --data= --nvPath= --logData= -d -n -l" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --data -i --nvPath -p --logData -l" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_nvextend tss2_nvextend

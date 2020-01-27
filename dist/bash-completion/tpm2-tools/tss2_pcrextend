@@ -8,13 +8,17 @@ _tss2_pcrextend()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[cdl] | --pcr | --data | --logData)
+        -!(-*)[x] | --pcr)
+            return;;
+        -!(-*)[il] | --data | --logData)
+            _filedir
+            COMPREPLY+=( '-' )
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version -c -d --pcr --data --logData -l -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version -x --pcr -i --data -l --logData -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_pcrextend tss2_pcrextend

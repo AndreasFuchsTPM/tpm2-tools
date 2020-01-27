@@ -8,17 +8,17 @@ _tss2_sign()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[dspcP] | --digest | --signature | --publicKey | --certificate | --padding)
+        -!(-*)[dokc] | --digest | --signature | --publicKey | --certificate)
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)k | --keyPath)
+        -!(-*)[ps] | --keyPath | --padding)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --certificate= -c --digest= -d --keyPath= -k --publicKey= -p --signature= -s --padding -P" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --certificate -c --digest -d --keyPath -p --publicKey -k --signature -o --padding -s" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_sign tss2_sign

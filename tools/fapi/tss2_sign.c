@@ -33,16 +33,16 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'k':
+    case 'p':
         ctx.keyPath = value;
         break;
-    case 'p':
+    case 'k':
         ctx.publicKey = value;
         break;
-    case 's':
+    case 'o':
         ctx.signature = value;
         break;
-    case 'P':
+    case 's':
         ctx.padding = value;
         break;
     }
@@ -52,16 +52,16 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"keyPath",     required_argument, NULL, 'k'},
-        {"padding",     required_argument, NULL, 'P'},
+        {"keyPath",     required_argument, NULL, 'p'},
+        {"padding",     required_argument, NULL, 's'},
         {"digest",      required_argument, NULL, 'd'},
-        {"signature",   required_argument, NULL, 's'},
-        {"publicKey",   required_argument, NULL, 'p'},
+        {"signature",   required_argument, NULL, 'o'},
+        {"publicKey",   required_argument, NULL, 'k'},
         {"force",       no_argument      , NULL, 'f'},
         {"certificate", required_argument, NULL, 'c'},
 
     };
-    return (*opts = tpm2_options_new ("c:d:f:k:p:s:P:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("c:d:f:p:k:o:s:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -70,15 +70,15 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
 
     /* Check availability of required parameters */
     if (!ctx.digest) {
-        fprintf (stderr, "digest missing, use --digest=\n");
+        fprintf (stderr, "digest missing, use --digest\n");
         return -1;
     }
     if (!ctx.keyPath) {
-        fprintf (stderr, "key path missing, use --keyPath=\n");
+        fprintf (stderr, "key path missing, use --keyPath\n");
         return -1;
     }
     if (!ctx.signature) {
-        fprintf (stderr, "signature missing, use --signature=\n");
+        fprintf (stderr, "signature missing, use --signature\n");
         return -1;
     }
     if (ctx.publicKey && ctx.certificate){
@@ -113,15 +113,6 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     if (r){
         LOG_PERR ("open_read_and_close digest", r);
         return 1;
-    }
-
-    if (ctx.certificate){
-        r = open_read_and_close (ctx.certificate, (void**)&certificate,
-            &digestSize);
-        if (r){
-            LOG_PERR ("open_read_and_close certificate", r);
-            return 1;
-        }
     }
 
     /* Execute FAPI command with passed arguments */

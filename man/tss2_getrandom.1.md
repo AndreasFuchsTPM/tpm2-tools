@@ -26,7 +26,7 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-d**, **\--data**: \<filename\>
+  * **-o**, **\--data**: \<filename\>
 
     The returned random bytes. MUST NOT be NULL.
 

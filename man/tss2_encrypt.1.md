@@ -27,7 +27,7 @@ If encrypting for a remote TPM, an asymmetric storage key is required as keyPath
 
 These are the available options:
 
-  * **-k**, **\--keyPath**=:
+  * **-p**, **\--keyPath**:
 
     Identifies the encryption key. MUST NOT be NULL.
 
@@ -35,15 +35,15 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-p**, **\--policyPath**:
+  * **-P**, **\--policyPath**:
 
     Identifies the policy to be associated with the sealed data. MAY be NULL. If NULL then the sealed data will have no policy.
 
-  * **-P**, **\--plainText**:
+  * **-i**, **\--plainText**:
 
     The data to be encrypted. MUST NOT be NULL.
 
-  * **-c**, **\--cipherText**:
+  * **-o**, **\--cipherText**:
 
     Returns the JSON-encoded ciphertext. MUST NOT be NULL.
 

@@ -18,7 +18,7 @@
 
 These are the available options:
 
-  * **-P** **\--pathToPublicKeyOfNewParent**:
+  * **-e** **\--pathToPublicKeyOfNewParent**:
 
     The path to the public key of the new parent. This key MAY be in the public key hierarchy /ext. If NULL only the public key will exported.
 
@@ -26,7 +26,7 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-e**, **\--exportedData**:
+  * **-o**, **\--exportedData**:
 
     Returns the exported subtree. MUST NOT be NULL.
 

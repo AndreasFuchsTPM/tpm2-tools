@@ -12,7 +12,8 @@
 
 # DESCRIPTION
 
-**tss2_policyexport**(1) - This commands exports a policy referred to by a path in JSON encoding. The exported policy SHALL be encoded according to TCG TSS 2.0 JSON Policy Language Specification.
+**tss2_policyexport**(1) - This commands exports a policy associated with a key
+in JSON encoding. The exported policy SHALL be encoded according to TCG TSS 2.0 JSON Policy Language Specification.
 
 # OPTIONS
 
@@ -22,13 +23,13 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-j**, **\--jsonPolicy**:
+  * **-o**, **\--jsonPolicy**:
 
     Returns the JSON-encoded policy. MUST NOT be NULL.
 
   * **-p**, **\--path**:
 
-    The path of the new policy. MUST NOT be NULL.
+    The path of the key. MUST NOT be NULL.
 
 [common tss2 options](common/tss2-options.md)
 

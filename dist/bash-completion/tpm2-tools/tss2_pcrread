@@ -8,9 +8,9 @@ _tss2_pcrread()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)i | --pcrIndex)
+        -!(-*)[x] | --pcrIndex)
             return;;
-        -!(-*)[cl] | --pcrValue | --pcrLog)
+        -!(-*)[ol] | --pcrValue | --pcrLog)
             _filedir
             COMPREPLY+=( '-' )
             return;;
@@ -18,7 +18,7 @@ _tss2_pcrread()
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --pcrValue= --pcrIndex= --force -f --pcrLog= -c -i -f -l" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version -o --pcrValue -x --pcrIndex --force -f -l --pcrLog" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_pcrread tss2_pcrread

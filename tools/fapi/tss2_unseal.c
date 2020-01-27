@@ -10,7 +10,7 @@ bool output_enabled = false;
 
 /* Context struct used to store passed command line parameters */
 static struct cxt {
-    char const *keyPath;
+    char const *path;
     char const *data;
     bool        overwrite;
 } ctx;
@@ -22,9 +22,9 @@ static bool on_option(char key, char *value) {
         ctx.overwrite = true;
         break;
     case 'p':
-        ctx.keyPath = value;
+        ctx.path = value;
         break;
-    case 'd':
+    case 'o':
         ctx.data = value;
         break;
     }
@@ -35,29 +35,29 @@ static bool on_option(char key, char *value) {
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"path",    required_argument, NULL, 'p'},
-        {"data",    required_argument, NULL, 'd'},
+        {"data",    required_argument, NULL, 'o'},
         {"force",   no_argument, NULL, 'f'}
     };
-    return (*opts = tpm2_options_new ("p:d:f", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("p:o:f", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
 /* Execute specific tool */
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
-    if (!ctx.keyPath) {
-        fprintf (stderr, "path to the sealed data missing, use --path=\n");
+    if (!ctx.path) {
+        fprintf (stderr, "path to the sealed data missing, use --path\n");
         return -1;
     }
     if (!ctx.data) {
-        fprintf (stderr, "path to decrypted data missing, use --data=\n");
+        fprintf (stderr, "path to decrypted data missing, use --data\n");
         return -1;
     }
 
     /* Execute FAPI command with passed arguments */
     uint8_t *data;
     size_t size;
-    TSS2_RC r = Fapi_Unseal (fctx, ctx.keyPath, &data, &size);
+    TSS2_RC r = Fapi_Unseal (fctx, ctx.path, &data, &size);
     if (r != TSS2_RC_SUCCESS){
         LOG_PERR ("Fapi_Unseal", r);
         return 1;

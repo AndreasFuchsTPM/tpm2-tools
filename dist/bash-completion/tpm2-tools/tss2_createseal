@@ -8,13 +8,17 @@ _tss2_createseal()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[ptPad] | --path | --type | --policyPath | --authValue | --data)
+        -!(-*)[i] | --data)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+        -!(-*)[ptPa] | --path | --type | --policyPath | --authValue)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --password -a --path= -p --policyPath= -P --type= -t --data= -d" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --authValue -a --path -p --policyPath -P --type -t --data -i" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_createseal tss2_createseal

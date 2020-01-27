@@ -8,17 +8,13 @@ _tss2_setappdata()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)a | --appData)
-            _filedir
-            COMPREPLY+=( '-' )
-            return;;
-        -!(-*)p | --path)
+        -!(-*)[pi] | --path | --appData)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -p --path= --appData= -a" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -p --path --appData -i" -- "$cur") )
 
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&

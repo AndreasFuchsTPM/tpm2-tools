@@ -8,17 +8,17 @@ _tss2_nvwrite()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)d | --data)
+        -!(-*)[p] | --nvPath)
+            return;;
+        -!(-*)[i] | --data)
             _filedir
             COMPREPLY+=( '-' )
-            return;;
-        -!(-*)[n] | --nvPath )
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --nvPath= --data= -n -d" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --nvPath -p --data  -i" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_nvwrite tss2_nvwrite

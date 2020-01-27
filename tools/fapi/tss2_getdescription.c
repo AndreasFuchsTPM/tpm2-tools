@@ -22,7 +22,7 @@ static bool on_option(char key, char *value) {
     case 'p':
         ctx.path = value;
         break;
-    case 'd':
+    case 'o':
         ctx.description = value;
         break;
     case 'f':
@@ -36,10 +36,10 @@ static bool on_option(char key, char *value) {
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"path"        , required_argument, NULL, 'p'},
-        {"description" , required_argument, NULL, 'd'},
+        {"description" , required_argument, NULL, 'o'},
         {"force"       , no_argument      , NULL, 'f'},
     };
-    return (*opts = tpm2_options_new ("d:f:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("o:f:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -47,11 +47,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path is missing, use --path=\n");
+        fprintf (stderr, "path is missing, use --path\n");
         return -1;
     }
     if (!ctx.description) {
-        fprintf (stderr, "description is missing, use --description=\n");
+        fprintf (stderr, "description is missing, use --description\n");
         return -1;
     }
 

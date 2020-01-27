@@ -11,7 +11,7 @@ bool output_enabled = false;
 /* Context struct used to store passed command line parameters */
 static struct cxt {
     char *path;
-    char *buffer;
+    char *jsonPolicy;
     bool overwrite;
 } ctx;
 
@@ -21,8 +21,8 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'j':
-        ctx.buffer = value;
+    case 'o':
+        ctx.jsonPolicy = value;
         break;
     case 'p':
         ctx.path = value;
@@ -36,10 +36,10 @@ bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"force",       no_argument      , NULL, 'f'},
         {"path",        required_argument, NULL, 'p'},
-        {"jsonPolicy",  required_argument, NULL, 'j'},
+        {"jsonPolicy",  required_argument, NULL, 'o'},
 
     };
-    return (*opts = tpm2_options_new ("f:j:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:o:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -47,29 +47,29 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path parameter is missing, pass --path=\n");
+        fprintf (stderr, "path parameter is missing, pass --path\n");
         return -1;
     }
-    if (!ctx.buffer) {
-        fprintf (stderr, "output parameter is missing, pass --jsonPolicy=\n");
+    if (!ctx.jsonPolicy) {
+        fprintf (stderr, "parameter jsonPolicy is missing, pass --jsonPolicy\n");
         return -1;
     }
 
     /* Execute FAPI command with passed arguments */
-    char *buffer;
-    TSS2_RC r = Fapi_ExportPolicy (fctx, ctx.path, &buffer);
+    char *jsonPolicy;
+    TSS2_RC r = Fapi_ExportPolicy (fctx, ctx.path, &jsonPolicy);
     if (r != TSS2_RC_SUCCESS) {
         LOG_PERR ("Fapi_PolicyExport", r);
         return 1;
     }
 
     /* Write returned data to file(s) */
-    r = open_write_and_close (ctx.buffer, ctx.overwrite, buffer, 0);
+    r = open_write_and_close (ctx.jsonPolicy, ctx.overwrite, jsonPolicy, 0);
     if (r){
         LOG_PERR ("open_write_and_close buffer", r);
         return 1;
     }
 
-    Fapi_Free (buffer);
+    Fapi_Free (jsonPolicy);
     return 0;
 }

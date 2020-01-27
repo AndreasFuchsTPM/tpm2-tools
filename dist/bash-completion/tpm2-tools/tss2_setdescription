@@ -8,13 +8,13 @@ _tss2_setdescription()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[pd] | --path | --description)
+        -!(-*)[pi] | --path | --description)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --path= -p --description -d " -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --path -p --description -i " -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_setdescription tss2_setdescription

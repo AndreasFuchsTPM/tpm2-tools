@@ -16,13 +16,13 @@ static struct cxt {
 /* Parse commandline parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'e':
+    case 'E':
         ctx.authValueEh = value;
         break;
-    case 's':
+    case 'S':
         ctx.authValueSh = value;
         break;
-    case 'l':
+    case 'L':
         ctx.authValueLockout = value;
         break;
     }
@@ -32,11 +32,11 @@ static bool on_option(char key, char *value) {
 /* Define possible commandline parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"authValueEh",         required_argument, NULL, 'e'},
-        {"authValueSh",         required_argument, NULL, 's'},
-        {"authValueLockout",    required_argument, NULL, 'l'},
+        {"authValueEh",         required_argument, NULL, 'E'},
+        {"authValueSh",         required_argument, NULL, 'S'},
+        {"authValueLockout",    required_argument, NULL, 'L'},
     };
-    return (*opts = tpm2_options_new ("e:s:l",
+    return (*opts = tpm2_options_new ("E:S:L",
         ARRAY_LEN(topts), topts, on_option, NULL, 0)) != NULL;
 }
 

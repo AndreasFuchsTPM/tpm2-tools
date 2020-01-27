@@ -8,17 +8,17 @@ _tss2_verifysignature()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[ds] | --digest | --signature)
+        -!(-*)[di] | --digest | --signature)
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)k | --keyPath)
+        -!(-*)p | --keyPath)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --digest= -d --keyPath= -k --signature= -s" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --digest -d --keyPath -p --signature -i" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2verify_signature tss2verify_signature

@@ -22,7 +22,7 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-i**, **\--info**:
+  * **-o**, **\--info**:
 
     Returns the FAPI and TPM information. MUST NOT be NULL.
 

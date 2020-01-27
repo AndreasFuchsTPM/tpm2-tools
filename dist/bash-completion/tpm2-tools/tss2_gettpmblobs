@@ -8,19 +8,9 @@ _tss2_gettpmblobs()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)p | --path)
-            _filedir
-            COMPREPLY+=( '-' )
+        -!(-*)[p] | --path )
             return;;
-        -!(-*)u | --tpm2bPublic
-            _filedir
-            COMPREPLY+=( '-' )
-            return;;
-        -!(-*)r | --tpm2bPrivate
-            _filedir
-            COMPREPLY+=( '-' )
-            return;;
-        -!(-*)l | --policy
+        -!(-*)[url] | --tpm2bPublic | --tpm2bPrivate | --policy)
             _filedir
             COMPREPLY+=( '-' )
             return;;
@@ -28,7 +18,7 @@ _tss2_gettpmblobs()
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --path= -p --tpm2bPublic= -u --tpm2bPrivate= -r --policy= -l" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --path -p --tpm2bPublic -u --tpm2bPrivate -r --policy -l" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_gettpmblobs tss2_gettpmblobs

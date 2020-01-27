@@ -27,7 +27,7 @@ actions SHALL be taken:
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The path to the entity to delete. MUST NOT be NULL.
 
@@ -37,7 +37,7 @@ These are the available options:
 
 # Deletes storage hierarchy (HS) and everything below it:
 ```
-tss2_delete --path=HS
+tss2_delete --path /HS
 ```
 
 # RETURNS

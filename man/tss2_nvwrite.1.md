@@ -18,13 +18,13 @@
 
 These are the available options:
 
-  * **-d**, **\--data**:
+  * **-i**, **\--data**:
 
     The data to write to the NV space. MUST NOT be NULL.
 
-  * **-n**, **\--nvPath**:
+  * **-p**, **\--nvPath**:
 
-    Identifies the NV space to write. MUST NOT be NULL.
+    Identifies the NV space to write to. MUST NOT be NULL.
 
 [common tss2 options](common/tss2-options.md)
 

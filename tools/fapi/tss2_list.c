@@ -18,10 +18,10 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 's':
+    case 'p':
         ctx.searchPath = value;
         break;
-    case 'p':
+    case 'o':
         ctx.pathList = value ? value : "-";
         break;
     }
@@ -31,10 +31,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"searchPath" , optional_argument, NULL, 's'},
-        {"pathList" , optional_argument, NULL, 'p'}
+        {"searchPath" , optional_argument, NULL, 'p'},
+        {"pathList" , optional_argument, NULL, 'o'}
     };
-    return (*opts = tpm2_options_new ("s:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("p:o:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -42,23 +42,23 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     (void) fctx;
     /* Execute FAPI command with passed arguments */
-    char *pathlist = NULL;
+    char *pathList = NULL;
     TSS2_RC r = Fapi_List(fctx,
-        ctx.searchPath ? ctx.searchPath : "", &pathlist);
+        ctx.searchPath ? ctx.searchPath : "", &pathList);
     if (r != TSS2_RC_SUCCESS) {
         LOG_PERR ("Fapi_List", r);
         return 1;
     }
 
     /* Write returned data to file(s) */
-    r = open_write_and_close (ctx.pathList, true, pathlist,
-        strlen(pathlist));
+    r = open_write_and_close (ctx.pathList, true, pathList,
+        strlen(pathList));
     if (r){
-        LOG_PERR ("open_write_and_close pathlist", r);
-        Fapi_Free (pathlist);
+        LOG_PERR ("open_write_and_close pathList", r);
+        Fapi_Free (pathList);
         return 1;
     }
 
-    Fapi_Free (pathlist);
+    Fapi_Free (pathList);
     return 0;
 }

@@ -8,17 +8,17 @@ _tss2_nvread()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)d | --data)
+        -!(-*)[p] | --nvPath)
+            return;;
+        -!(-*)[ol] | --data | --logData)
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)[nl] | --nvPath | --logData)
-            return
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --nvPath= -n --data= -d --logData= -l" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --nvPath -p --data -o --logData -l" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_nvread tss2_nvread

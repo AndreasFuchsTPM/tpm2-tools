@@ -18,7 +18,7 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The path to the new key. MUST NOT be NULL.
 
@@ -34,7 +34,7 @@ These are the available options:
 
     The new authorization value for the key. MAY be NULL. If NULL then the authorization value will be the empty string.
 
-  * **-d**, **\--data**:
+  * **-i**, **\--data**:
 
     the data to be sealed by the TPM. MAY be NULL.
 
@@ -44,7 +44,7 @@ These are the available options:
 
 ## Create a key without password and read data to be sealed from file.
 ```
-tss2_createseal --path HS/SRK/mySealKey --type "noDa" --authValue=abc --data abc
+tss2_createseal --path HS/SRK/mySealKey --type "noDa" --authValue abc --data abc
 ```
 
 # RETURNS

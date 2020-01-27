@@ -19,16 +19,16 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'c':
+    case 'i':
         ctx.cipherText = value;
         break;
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'p':
+    case 'o':
         ctx.plainText = value;
         break;
-    case 'k':
+    case 'p':
         ctx.keyPath = value;
         break;
     }
@@ -38,12 +38,12 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"keyPath",     required_argument, NULL, 'k'},
-        {"cipherText", required_argument, NULL, 'c'},
+        {"keyPath",     required_argument, NULL, 'p'},
+        {"cipherText", required_argument, NULL, 'i'},
         {"force"      , no_argument      , NULL, 'f'},
-        {"plainText"     , required_argument, NULL, 'p'},
+        {"plainText"     , required_argument, NULL, 'o'},
     };
-    return (*opts = tpm2_options_new ("c:f:p:k:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:f:o:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -51,17 +51,15 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.keyPath) {
-        fprintf (stderr, "No key path provided, use --keyPath=\n");
+        fprintf (stderr, "No key path provided, use --keyPath\n");
         return -1;
     }
     if (!ctx.cipherText) {
-        fprintf (stderr, "No encrypted text provided, use --cipherText=[file" \
-            " or '-' for standard input]\n");
+        fprintf (stderr, "No encrypted text provided, use --cipherText\n");
         return -1;
     }
     if (!ctx.plainText) {
-        fprintf (stderr, "No output file provided, use --plainText=[file or '-'" \
-            " for standard output]\n");
+        fprintf (stderr, "No output file provided, use --plainText\n");
         return -1;
     }
 

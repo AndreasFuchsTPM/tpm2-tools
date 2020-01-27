@@ -21,7 +21,7 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'c':
+    case 'o':
         ctx.certificates = value;
         break;
     }
@@ -32,9 +32,9 @@ static bool on_option(char key, char *value) {
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"force",           no_argument      , NULL, 'f'},
-        {"certificates",    required_argument, NULL, 'c'}
+        {"certificates",    required_argument, NULL, 'o'}
     };
-    return (*opts = tpm2_options_new ("f:c:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:o:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -42,7 +42,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.certificates) {
-        fprintf (stderr, "certificates missing, use --certificates=\n");
+        fprintf (stderr, "certificates missing, use --certificates\n");
         return -1;
     }
 

@@ -18,10 +18,10 @@ static struct cxt {
 /* Parse commandline parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'p':
+    case 'P':
         ctx.policyPath = value;
         break;
-    case 'k':
+    case 'p':
         ctx.keyPath = value;
         break;
     case 'r':
@@ -34,11 +34,11 @@ static bool on_option(char key, char *value) {
 /* Define possible commandline parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"policyPath", required_argument, NULL, 'p'},
-        {"keyPath",    required_argument, NULL, 'k'},
+        {"policyPath", required_argument, NULL, 'P'},
+        {"keyPath",    required_argument, NULL, 'p'},
         {"policyRef",    required_argument, NULL, 'r'},
     };
-    return (*opts = tpm2_options_new ("p:k:r.", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("P:p:r.", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -47,12 +47,12 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.policyPath) {
         fprintf (stderr, "policy path to sign is missing, pass" \
-            "--policyPath=\n");
+            "--policyPath\n");
         return -1;
     }
     if (!ctx.keyPath) {
         fprintf (stderr, "key path for signing key is missing, pass" \
-            "--keyPath=\n");
+            "--keyPath\n");
         return -1;
     }
 

@@ -20,7 +20,7 @@ static struct cxt {
 /* Parse commandline parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'a':
+    case 'o':
         ctx.data = value;
         break;
     case 'f':
@@ -37,11 +37,11 @@ static bool on_option(char key, char *value) {
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"path", required_argument, NULL, 'p'},
-        {"appData", required_argument, NULL, 'a'},
+        {"appData", required_argument, NULL, 'o'},
         {"force" , no_argument, NULL, 'f'},
 
     };
-    return (*opts = tpm2_options_new ("a:f:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("o:f:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -49,7 +49,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path is missing, use --path=\n");
+        fprintf (stderr, "path is missing, use --path\n");
         return -1;
     }
 

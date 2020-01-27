@@ -8,7 +8,7 @@ _tss2_getrandom()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)d | --data)
+        -!(-*)o | --data)
             _filedir
             COMPREPLY+=( '-' )
             return;;
@@ -18,7 +18,7 @@ _tss2_getrandom()
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --numBytes= --data= -d -n" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f --numBytes -n --data -o " -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_getrandom tss2_getrandom

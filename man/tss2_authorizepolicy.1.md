@@ -18,13 +18,13 @@
 
 These are the available options:
 
-  * **-p**, **\--policyPath**:
+  * **-P**, **\--policyPath**:
     Path of the new policy. MUST NOT be NULL.
 
-  * **-k**, **\--keyPath**=:
+  * **-p**, **\--keyPath**:
     Path of the signing key. MUST NOT be NULL.
 
-  * **-r**, **\--policyRef**=:
+  * **-r**, **\--policyRef**:
     A byte buffer to be included in the signature. MAY be NULL if policyRefSize is 0.
 
 [common tss2 options](common/tss2-options.md)

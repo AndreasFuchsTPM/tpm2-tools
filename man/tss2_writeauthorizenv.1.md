@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-n**, **\--nvPath**:
+  * **-p**, **\--nvPath**:
 
     The path of the NV index. MUST NOT be NULL.
 
-  * **-l**, **\--policyPath**=:
+  * **-P**, **\--policyPath**:
 
     The path of the new policy. MUST NOT be NULL.
 

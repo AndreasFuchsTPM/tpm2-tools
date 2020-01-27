@@ -8,17 +8,17 @@ _tss2_getcertificate()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)x | --x509certData)
+        -!(-*)[o] | --x509certData)
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)p | --path)
+        -!(-*)[p] | --path)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -p --path= --x509certData= -x" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -p --path --x509certData -o" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_getcertificate tss2_getcertificate

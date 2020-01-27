@@ -22,10 +22,10 @@ static bool on_option(char key, char *value) {
     case 'd':
         ctx.digest = value;
         break;
-    case 'k':
+    case 'p':
         ctx.publicKeyPath = value;
         break;
-    case 's':
+    case 'i':
         ctx.signature = value;
         break;
     }
@@ -35,11 +35,11 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"keyPath",     required_argument, NULL, 'k'},
+        {"keyPath",     required_argument, NULL, 'p'},
         {"digest",      required_argument, NULL, 'd'},
-        {"signature",   required_argument, NULL, 's'}
+        {"signature",   required_argument, NULL, 'i'}
     };
-    return (*opts = tpm2_options_new ("d:k:s:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("d:p:i:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -48,20 +48,20 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.publicKeyPath) {
         fprintf (stderr, "public key path parameter not provided, use " \
-            "--keyPath=\n");
+            "--keyPath\n");
         return -1;
     }
     if (!ctx.digest) {
-        fprintf (stderr, "digest parameter not provided, use --digest=\n");
+        fprintf (stderr, "digest parameter not provided, use --digest\n");
         return -1;
     }
     if (!ctx.signature) {
         fprintf (stderr, "signature parameter not provided, use "\
-            "--signature=\n");
+            "--signature\n");
         return -1;
     }
     if (!strcmp ("-", ctx.signature)  && !strcmp("-", ctx.digest)) {
-        fprintf (stderr, "At most one of --signature= and --digest= can be '-'"\
+        fprintf (stderr, "At most one of --signature and --digest can be '-'"\
             " (standard input)\n");
         return -1;
     }

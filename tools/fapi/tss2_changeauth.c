@@ -23,7 +23,7 @@ static bool on_option(char key, char *value) {
         if (!ctx.authValue)
             return false; /* User entered two different passwords */
         break;
-    case 'e':
+    case 'p':
         ctx.entityPath = value;
         break;
     }
@@ -34,9 +34,9 @@ static bool on_option(char key, char *value) {
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"authValue", optional_argument, NULL, 'a'},
-        {"entityPath", required_argument, NULL, 'e'}
+        {"entityPath", required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("a:e:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("a:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -44,7 +44,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.entityPath) {
-        fprintf (stderr, "No entity path provided, use --entityPath=\n");
+        fprintf (stderr, "No entity path provided, use --entityPath\n");
         if (ctx.authValue){
             free (ctx.authValue);
         }

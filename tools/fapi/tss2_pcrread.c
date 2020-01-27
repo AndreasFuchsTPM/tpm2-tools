@@ -20,10 +20,10 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'c':
+    case 'o':
         ctx.pcrValue = value;
         break;
-    case 'i':
+    case 'x':
         if (!tpm2_util_string_to_uint32 (value, &ctx.pcrIndex)) {
             fprintf (stderr, "The PCR index must be an integer less than "\
                 "2**32-1\n");
@@ -43,12 +43,12 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"pcrIndex"     , required_argument, NULL, 'i'},
-        {"pcrValue"     , required_argument, NULL, 'c'},
+        {"pcrIndex"     , required_argument, NULL, 'x'},
+        {"pcrValue"     , required_argument, NULL, 'o'},
         {"force"         , no_argument      , NULL, 'f'},
         {"pcrLog"       , required_argument, NULL, 'l'}
     };
-    return (*opts = tpm2_options_new ("c:i:f:l:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("o:x:f:l:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -56,15 +56,15 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.pcrIndex) {
-        fprintf (stderr, "No PCR index provided, use --pcrIndex=\n");
+        fprintf (stderr, "No PCR index provided, use --pcrIndex\n");
         return -1;
     }
     if (!ctx.pcrValue) {
-        fprintf (stderr, "No PCR value provided, use --pcrValue=\n");
+        fprintf (stderr, "No PCR value provided, use --pcrValue\n");
         return -1;
     }
     if (!ctx.pcrLog) {
-        fprintf (stderr, "No PCR log provided, use --pcrLog=\n");
+        fprintf (stderr, "No PCR log provided, use --pcrLog\n");
         return -1;
     }
     if (!strcmp (ctx.pcrLog, "-") && !strcmp (ctx.pcrValue, "-")) {
@@ -94,7 +94,7 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     if (pcrLog){
         r =  open_write_and_close (ctx.pcrLog, ctx.overwrite, pcrLog, 0);
     }
-    else{
+    else {
         r =  open_write_and_close (ctx.pcrLog, ctx.overwrite, "", 0);
     }
     if (r){

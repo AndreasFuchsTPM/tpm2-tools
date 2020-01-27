@@ -8,18 +8,18 @@ _tss2_exportpolicy()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)j | --jsonPolicy)
+        -!(-*)[o] | --jsonPolicy )
             _filedir
             COMPREPLY+=( '-' )
             return;;
-        -!(-*)p | --path)
+        -!(-*)[p] | --path)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --jsonPolicy= -j
-    --path= -p --force= -f" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --jsonPolicy -o
+    --path -p --force -f" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_exportpolicy tss2_exportpolicy

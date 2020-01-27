@@ -10,14 +10,14 @@ bool output_enabled = false;
 /* Context struct used to store passed command line parameters */
 static struct cxt {
     char *path;
-    char *data;
+    char *importData;
 } ctx;
 
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'd':
-        ctx.data = value;
+    case 'i':
+        ctx.importData = value;
         break;
     case 'p':
         ctx.path = value;
@@ -29,10 +29,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"importData", required_argument, NULL, 'd'},
+        {"importData", required_argument, NULL, 'i'},
         {"path"  , required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("d:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -40,31 +40,31 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path parameter is missing, pass --path=\n");
+        fprintf (stderr, "path parameter is missing, pass --path\n");
         return -1;
     }
-    if (!ctx.data) {
-        fprintf (stderr, "data parameter is missing, pass --importData=\n");
+    if (!ctx.importData) {
+        fprintf (stderr, "importData parameter is missing, pass --importData\n");
         return -1;
     }
 
     /* Read file to import */
-    char *input;
-    TSS2_RC r = open_read_and_close (ctx.data, (void**)&input, NULL);
+    char *importData;
+    TSS2_RC r = open_read_and_close (ctx.importData, (void**)&importData, NULL);
     if (r){
         LOG_PERR("open_read_and_close input", r);
         return 1;
     }
 
     /* Execute FAPI command with passed arguments */
-    r = Fapi_Import (fctx, ctx.path, input);
+    r = Fapi_Import (fctx, ctx.path, importData);
     if (r != TSS2_RC_SUCCESS){
         LOG_PERR("Fapi_Import", r);
-        Fapi_Free (input);
+        Fapi_Free (importData);
         return 1;
     }
 
-    Fapi_Free (input);
+    Fapi_Free (importData);
 
     return 0;
 }

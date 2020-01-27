@@ -22,7 +22,7 @@ These are the available options:
 
     Path of the object for which the appData will be loaded. MUST NOT be NULL.
 
-  * **-a**, **\--appData**:
+  * **-o**, **\--appData**:
 
     Returns a copy of the stored data. MAY be NULL.
 

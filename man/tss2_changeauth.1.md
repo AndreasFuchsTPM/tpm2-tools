@@ -24,7 +24,7 @@ These are the available options:
 
     The new 0-terminated password. MAY be NULL. If NULL then the password is set to the empty string.
 
-  * **-e**, **\--entityPath**=:
+  * **-p**, **\--entityPath**:
 
     The path identifying the entity to modify. MUST NOT be NULL.
 
@@ -34,7 +34,7 @@ These are the available options:
 
 ## Change a password for an entity HS/SRK/myRSACryptKey to M1
 ```
-tss2_changeauth --entityPath HS/SRK/myRSACryptKey --authValue=M1
+tss2_changeauth --entityPath HS/SRK/myRSACryptKey --authValue M1
 ```
 
 ## Change a password for an entity HS/SRK/myRSACryptKey and ask the user to enter the password with disabled ecoh.

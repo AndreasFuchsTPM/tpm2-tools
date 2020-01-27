@@ -70,13 +70,12 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         ctx.policyPath = "";
     }
     if (!ctx.nvPath) {
-        fprintf (stderr, "No NV path provided, use --path=\n");
+        fprintf (stderr, "No NV path provided, use --path\n");
         return -1;
     }
 
     if (!ctx.nvTemplate) {
-        fprintf (stderr, "No type provided, use --type=[file or" \
-            " '-' for standard input]\n");
+        fprintf (stderr, "No type provided, use --type\n");
         return -1;
     }
 

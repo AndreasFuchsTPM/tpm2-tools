@@ -25,7 +25,7 @@ static bool on_option(char key, char *value) {
     case 'p':
         ctx.path = value;
         break;
-    case 'x':
+    case 'o':
         ctx.x509cert = value;
         break;
     }
@@ -37,9 +37,9 @@ bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
         {"force"   , no_argument      , NULL, 'f'},
         {"path"    , required_argument, NULL, 'p'},
-        {"x509certData", required_argument, NULL, 'x'}
+        {"x509certData", required_argument, NULL, 'o'}
     };
-    return (*opts = tpm2_options_new ("f:p:x:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:p:o:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -47,11 +47,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path missing, use --path=\n");
+        fprintf (stderr, "path missing, use --path\n");
         return -1;
     }
     if (!ctx.x509cert) {
-        fprintf (stderr, "x509certData missing, use --x509certData=\n");
+        fprintf (stderr, "x509certData missing, use --x509certData\n");
         return -1;
     }
 

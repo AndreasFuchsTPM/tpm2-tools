@@ -8,14 +8,18 @@ _tss2_getdescription()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[pd] | --path | --description)
+        -!(-*)[o] | --description)
+            COMPREPLY+=( '-' )
+            _filedir
+            return;;
+        -!(-*)[p] | --path)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --path= -p
-    --description= -d " -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --path -p
+    --description -o " -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_getdescription tss2_getdescription

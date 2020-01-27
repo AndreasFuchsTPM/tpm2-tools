@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-s**, **\--searchPath**:
+  * **-p**, **\--searchPath**:
 
     The path identifying the root of the search. MUST NOT be NULL.
 
-  * **-p**, **\--pathList**:
+  * **-o**, **\--pathList**:
 
     Returns the colon-separated list of paths. MUST NOT be NULL.
 
@@ -36,7 +36,7 @@ tss2_list
 ```
 ## List all entities under the HS path
 ```
-tss2_list --searchPath=HS --pathList output.file
+tss2_list --searchPath HS --pathList output.file
 ```
 
 # RETURNS

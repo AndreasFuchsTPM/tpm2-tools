@@ -34,7 +34,7 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'd':
+    case 'o':
         ctx.filename = value;
         break;
     }
@@ -47,9 +47,9 @@ bool tss2_tool_onstart(tpm2_options **opts) {
         {"numBytes", required_argument, NULL, 'n'},
         {"force"    , no_argument      , NULL, 'f'},
         /* output file */
-        {"data"   , required_argument, NULL, 'd'}
+        {"data"   , required_argument, NULL, 'o'}
     };
-    return (*opts = tpm2_options_new ("f:n:d:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:n:o:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -57,33 +57,31 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.filename) {
-        fprintf (stderr, "No filename for output was provided, use --data "\
-            "[filename], or --data - for printing to stdout\n");
+        fprintf (stderr, "No filename for data was provided, use --data\n");
         return -1;
     }
     if (!ctx.numBytes) {
-        fprintf (stderr, "No amount of bytes was provided, use --numBytes "\
-            "[positive integer less than 2**32]\n");
+        fprintf (stderr, "No amount of bytes was provided, use --numBytes\n");
         return -1;
     }
 
     /* Execute FAPI command with passed arguments */
-    uint8_t *output;
-    TSS2_RC r = Fapi_GetRandom (fctx, ctx.numBytes, &output);
+    uint8_t *data;
+    TSS2_RC r = Fapi_GetRandom (fctx, ctx.numBytes, &data);
     if (r != TSS2_RC_SUCCESS) {
         LOG_PERR ("Fapi_GetRandom", r);
         return 1;
     }
 
     /* Write returned data to file(s) */
-    r = open_write_and_close (ctx.filename, ctx.overwrite, output,
+    r = open_write_and_close (ctx.filename, ctx.overwrite, data,
         ctx.numBytes);
     if (r){
         LOG_PERR ("open_write_and_close output", r);
-        Fapi_Free (output);
+        Fapi_Free (data);
         return 1;
     }
 
-    Fapi_Free (output);
+    Fapi_Free (data);
     return r;
 }

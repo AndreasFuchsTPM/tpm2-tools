@@ -18,10 +18,10 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'd':
+    case 'i':
         ctx.data = value;
         break;
-    case 'n':
+    case 'p':
         ctx.nvPath = value;
         break;
     case 'l':
@@ -34,11 +34,11 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"data"  , required_argument, NULL, 'd'},
-        {"nvPath"  , required_argument, NULL, 'n'},
+        {"data"  , required_argument, NULL, 'i'},
+        {"nvPath"  , required_argument, NULL, 'p'},
         {"logData"  , required_argument, NULL, 'l'}
     };
-    return (*opts = tpm2_options_new ("d:n:l:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:p:l:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -46,12 +46,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.nvPath) {
-        fprintf (stderr, "No NV path provided, use --nvPath=\n");
+        fprintf (stderr, "No NV path provided, use --nvPath\n");
         return -1;
     }
     if (!ctx.data) {
-        fprintf (stderr, "No file for input provided, use --data=[filename or "\
-            "'-' for standard input]\n");
+        fprintf (stderr, "No file for input provided, use --data\n");
         return -1;
     }
 

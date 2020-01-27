@@ -22,15 +22,15 @@ These are the availabe options:
 
     Force overwriting the output file.
 
-  * **-d**, **\--data**:
+  * **-o**, **\--data**:
 
     Returns the value read from the NV space. MUST NOT be NULL.
 
-  * **-n**, **\--nvPath**=:
+  * **-p**, **\--nvPath**:
 
     Identifies the NV space to read. MUST NOT be NULL.
 
-  * **-l**, **\--logData**=:
+  * **-l**, **\--logData**:
 
     Returns the JSON encoded log, if the NV index is of type “extend” and an empty string otherwise. MAY be NULL.
 

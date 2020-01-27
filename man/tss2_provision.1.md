@@ -26,13 +26,13 @@ without authorization value is made persistent.
 
 These are the available options:
 
-  * **-e**, **\--authValueEh**=:
+  * **-E**, **\--authValueEh**:
     The authorization value for the privacy admin, i.e. the endorsement hierarchy. MAY be NULL.
 
-  * **-s**, **\--authValueSh**=:
+  * **-S**, **\--authValueSh**:
     The authorization value for the owner, i.e. the storage hierarchy. SHOULD be NULL.
 
-  * **-l**, **\--authValueLockout**=:
+  * **-L**, **\--authValueLockout**:
     The authorization value for the lockout authorization. SHOULD NOT be NULL.
 
 [common tss2 options](common/tss2-options.md)

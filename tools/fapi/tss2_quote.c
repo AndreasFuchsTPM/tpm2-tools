@@ -15,7 +15,7 @@ static struct cxt {
     char const *keyPath;
     char const *qualifyingData;
     char const *quoteInfo;
-    char const *pcrEventLog;
+    char const *pcrLog;
     char const *signature;
     char const *certificate;
     bool        overwrite;
@@ -60,24 +60,24 @@ static inline bool extract_pcrs(char *input, uint32_t **output) {
 static bool on_option(char key, char *value) {
     (void)value;
     switch (key) {
-    case 'L':
+    case 'x':
         return extract_pcrs(value, &ctx.pcrList);
-    case 'd':
+    case 'Q':
         ctx.qualifyingData = value;
         break;
     case 'l':
-        ctx.pcrEventLog = value;
+        ctx.pcrLog = value;
         break;
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'k':
+    case 'p':
         ctx.keyPath = value;
         break;
     case 'q':
         ctx.quoteInfo = value;
         break;
-    case 's':
+    case 'o':
         ctx.signature = value;
         break;
     case 'c':
@@ -90,16 +90,16 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"pcrList"       , required_argument, NULL, 'L'},
-        {"keyPath"        , required_argument, NULL, 'k'},
-        {"qualifyingData", required_argument, NULL, 'd'},
+        {"pcrList"       , required_argument, NULL, 'x'},
+        {"keyPath"        , required_argument, NULL, 'p'},
+        {"qualifyingData", required_argument, NULL, 'Q'},
         {"quoteInfo"     , required_argument, NULL, 'q'},
-        {"signature"      , required_argument, NULL, 's'},
+        {"signature"      , required_argument, NULL, 'o'},
         {"pcrLog"        , required_argument, NULL, 'l'},
         {"certificate"    , required_argument, NULL, 'c'},
         {"force"          , no_argument      , NULL, 'f'}
     };
-    return (*opts = tpm2_options_new ("L:d:l:f:k:q:s:c:", ARRAY_LEN(topts),
+    return (*opts = tpm2_options_new ("x:Q:l:f:p:q:o:c:", ARRAY_LEN(topts),
         topts, on_option, NULL, 0)) != NULL;
 }
 
@@ -126,22 +126,22 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
         free (ctx.pcrList);
         return -1;
     }
-    if (!ctx.pcrEventLog) {
+    if (!ctx.pcrLog) {
         fprintf (stderr, "No PCR event log provided, use --pcrLog\n");
         free (ctx.pcrList);
         return -1;
     }
     if (!ctx.certificate) {
-        fprintf (stderr, "No Certificate provided, use --certificate=\n");
+        fprintf (stderr, "No Certificate provided, use --certificate\n");
         free (ctx.pcrList);
         return -1;
     }
     if (!ctx.quoteInfo) {
-        fprintf (stderr, "No quoteInfo provided, use --quoteInfo=\n");
+        fprintf (stderr, "No quoteInfo provided, use --quoteInfo\n");
         free (ctx.pcrList);
         return -1;
     }
-    if (!strcmp (ctx.quoteInfo, "-") + !strcmp (ctx.pcrEventLog, "-") +
+    if (!strcmp (ctx.quoteInfo, "-") + !strcmp (ctx.pcrLog, "-") +
         !strcmp (ctx.signature, "-") + !strcmp (ctx.certificate, "-") > 1) {
             fprintf (stderr, "Only one of --quoteInfo, --pcrLog, "\
                 "--signature and --certificate can print to standard "\
@@ -163,10 +163,10 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Execute FAPI command with passed arguments */
     uint8_t *signature;
     size_t signatureSize;
-    char *quoteInfo, *pcrEventLog = NULL, *certificate = NULL;
+    char *quoteInfo, *pcrLog = NULL, *certificate = NULL;
     r = Fapi_Quote (fctx, ctx.pcrList, 1, ctx.keyPath,
         NULL, qualifyingData, qualifyingDataSize, &quoteInfo,
-        &signature, &signatureSize, &pcrEventLog, &certificate);
+        &signature, &signatureSize, &pcrLog, &certificate);
     if (r != TSS2_RC_SUCCESS) {
         LOG_PERR ("Fapi_Quote", r);
         free (ctx.pcrList);
@@ -182,8 +182,8 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     if (r){
         LOG_PERR ("open_write_and_close quoteInfo", r);
         Fapi_Free (quoteInfo);
-        if (pcrEventLog){
-            Fapi_Free (pcrEventLog);
+        if (pcrLog){
+            Fapi_Free (pcrLog);
         }
         Fapi_Free (signature);
         return 1;
@@ -191,16 +191,16 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
 
     Fapi_Free (quoteInfo);
 
-    if (pcrEventLog){
-        r = open_write_and_close (ctx.pcrEventLog, ctx.overwrite, pcrEventLog,
+    if (pcrLog){
+        r = open_write_and_close (ctx.pcrLog, ctx.overwrite, pcrLog,
             0);
         if (r){
-            LOG_PERR ("open_write_and_close pcrEventLog", r);
-            Fapi_Free (pcrEventLog);
+            LOG_PERR ("open_write_and_close pcrLog", r);
+            Fapi_Free (pcrLog);
             Fapi_Free (signature);
             return 1;
         }
-        Fapi_Free (pcrEventLog);
+        Fapi_Free (pcrLog);
     }
 
     r = open_write_and_close (ctx.signature, ctx.overwrite, signature,

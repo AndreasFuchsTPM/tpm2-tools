@@ -18,7 +18,7 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     Path of the new NV space. MUST NOT be NULL.
 
@@ -30,13 +30,13 @@ These are the available options:
 
     The size in bytes of the NV index to be created. MAY be zero if the size is inferred from the type; e.g. an NV index of type counter has a size of 8 bytes.
 
-  * **-P**, **\--policy-path**:
+  * **-P**, **\--policyPath**:
 
     Identifies the policy to be associated with the new NV space. MAY be NULL. If NULL then no policy will be associated with the NV space.
 
   * **-a**, **\--authValue**:
 
-    The new authorization value for the key. MAY be NULL. If NULL then the authorization value will be the empty string
+    The new authorization value for the nv index. MAY be NULL. If NULL then the authorization value will be the empty string
 
 
 [common tss2 options](common/tss2-options.md)

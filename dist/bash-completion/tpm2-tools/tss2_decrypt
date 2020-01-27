@@ -8,15 +8,17 @@ _tss2_decrypt()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[kpc] | --keyPath | --plainText | --cipherText)
+        -!(-*)[io] | --cipherText | --plainText)
             _filedir
             COMPREPLY+=( '-' )
+            return;;
+        -!(-*)p | --keyPath)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -c --cipherText= --plainText= -p --keyPath= -k" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --force -f -i --cipherText --plainText -o --keyPath -p" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_decrypt tss2_decrypt

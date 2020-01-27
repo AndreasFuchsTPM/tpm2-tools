@@ -8,14 +8,14 @@ _tss2_changeauth()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[ae] | --authValue | --entityPath)
+        -!(-*)[ap] | --authValue | --entityPath)
             return;;
     esac
 
     $split && return
 
     COMPREPLY=( $(compgen -W "-h --help -v --version -f --force -a --authValue
-    -e --entityPath=" -- "$cur") )
+    -p --entityPath" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_changeauth tss2_changeauth

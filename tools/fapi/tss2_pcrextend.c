@@ -11,22 +11,22 @@ bool output_enabled = false;
 /* Context struct used to store passed command line parameters */
 static struct cxt {
     uint32_t        pcr;
-    char     const *eventData;
+    char     const *data;
     char     const *logData;
 } ctx;
 
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch  (key) {
-    case 'c':
+    case 'x':
         if (!tpm2_util_string_to_uint32 (value, &ctx.pcr)) {
             fprintf (stderr, "%s cannot be converted to an integer or is"\
                 "larger than 2**32 - 1\n", value);
             return false;
         }
         break;
-    case 'd':
-        ctx.eventData = value;
+    case 'i':
+        ctx.data = value;
         break;
     case 'l':
         ctx.logData = value;
@@ -38,11 +38,11 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"pcr"       , required_argument, NULL, 'c'},
-        {"data", required_argument, NULL, 'd'},
+        {"pcr"       , required_argument, NULL, 'x'},
+        {"data", required_argument, NULL, 'i'},
         {"logData", required_argument, NULL, 'l'}
     };
-    return (*opts = tpm2_options_new ("c:d:l", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("x:i:l", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -50,25 +50,25 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.pcr) {
-        fprintf (stderr, "No pcr provided, use --pcr=\n");
+        fprintf (stderr, "No pcr provided, use --pcr\n");
         return -1;
     }
-    if (!ctx.eventData) {
-        fprintf (stderr, "No event data provided, use --data=\n");
+    if (!ctx.data) {
+        fprintf (stderr, "No event data provided, use --data\n");
         return -1;
     }
     if (!ctx.logData) {
-        fprintf (stderr, "No log data provided, use --logData=\n");
+        fprintf (stderr, "No log data provided, use --logData\n");
         return -1;
     }
 
     /* Read event data and log data from file */
-    uint8_t *eventData;
+    uint8_t *data;
     size_t eventDataSize;
-    TSS2_RC r = open_read_and_close (ctx.eventData, (void**)&eventData,
+    TSS2_RC r = open_read_and_close (ctx.data, (void**)&data,
         &eventDataSize);
     if (r){
-        LOG_PERR ("open_read_and_close eventData", r);
+        LOG_PERR ("open_read_and_close data", r);
         return -1;
     }
     char *logData;
@@ -79,14 +79,14 @@ int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     }
 
     /* Execute FAPI command with passed arguments */
-    r = Fapi_PcrExtend(fctx, ctx.pcr, eventData, eventDataSize, logData);
+    r = Fapi_PcrExtend(fctx, ctx.pcr, data, eventDataSize, logData);
     if (r != TSS2_RC_SUCCESS){
         free (logData);
         LOG_PERR ("Fapi_PcrExtend", r);
         return 1;
     }
 
-    Fapi_Free (eventData);
+    Fapi_Free (data);
     free (logData);
 
     return 0;

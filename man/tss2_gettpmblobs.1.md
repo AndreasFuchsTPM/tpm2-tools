@@ -42,7 +42,7 @@ These are the available options:
 
 # EXAMPLE
 
-tss2_gettpmblobs --path=HS/SRK/myRSACrypt --tpm2bPublic=public.file --tpm2bPrivate=private.file --policy=policy.file
+tss2_gettpmblobs --path HS/SRK/myRSACrypt --tpm2bPublic public.file --tpm2bPrivate private.file --policy policy.file
 
 # RETURNS
 

@@ -26,7 +26,7 @@ These are the available options:
 
     Path of the object for which the blobs will be returned. MUST NOT be NULL.
 
-  * **-d**, **\--data**:
+  * **-o**, **\--data**:
 
     The decrypted data after unsealing. MAY be NULL.
 

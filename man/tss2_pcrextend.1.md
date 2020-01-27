@@ -19,11 +19,11 @@ TPM2_PCR_Event.
 
 These are the available options:
 
-  * **-c**, **\--pcr**:
+  * **-x**, **\--pcr**:
 
    The PCR to extend.
 
-  * **-d**, **\--data**:
+  * **-i**, **\--data**:
 
     The event data. Note that this data will be hashed using the respective PCR’s hash algorithm. See the TPM2_PCR_Event function of the TPM specification. MUST NOT be NULL.
 

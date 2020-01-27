@@ -31,7 +31,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 /* Execute specific tool */
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     if (!path) {
-        fprintf (stderr, "No path to the entity provided, use --path=\n");
+        fprintf (stderr, "No path to the entity provided, use --path\n");
         return -1;
     }
 

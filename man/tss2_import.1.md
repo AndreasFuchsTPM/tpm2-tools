@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The path of the new object. MUST NOT be NULL.
 
-  * **-d**, **\--importData=**:
+  * **-i**, **\--importData**:
 
     The data to be imported. MUST NOT be NULL.
 

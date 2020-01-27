@@ -15,8 +15,8 @@ static struct cxt {
 
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
-    switch(key) {
-    case 'b': {
+    switch (key) {
+    case 'i': {
         uint64_t i;
         if (!tpm2_util_string_to_uint64 (value, &i) || i == 0) {
             fprintf (stderr, "%s cannot be converted to a positive integer or "\
@@ -26,7 +26,7 @@ static bool on_option(char key, char *value) {
         ctx.bitmap = i; /* cast from uint32 to size_t */
         }
         break;
-    case 'n':
+    case 'p':
         ctx.path = value;
         break;
     }
@@ -36,10 +36,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"bitmap", required_argument, NULL, 'b'},
-        {"nvPath"    , required_argument, NULL, 'n'}
+        {"bitmap", required_argument, NULL, 'i'},
+        {"nvPath"    , required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("b:n:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -47,11 +47,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "No path to the NV provided, use --nvPath=\n");
+        fprintf (stderr, "No path to the NV provided, use --nvPath\n");
         return -1;
     }
     if (!ctx.bitmap) {
-        fprintf (stderr, "No bits provided, use --bitmap=0x...\n");
+        fprintf (stderr, "No bits provided, use --bitmap [0x...]\n");
         return -1;
     }
 

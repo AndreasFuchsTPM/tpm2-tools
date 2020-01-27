@@ -18,10 +18,10 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'd':
+    case 'i':
         ctx.data = value;
         break;
-    case 'n':
+    case 'p':
         ctx.nvPath = value;
         break;
     }
@@ -31,10 +31,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"data"  , required_argument, NULL, 'd'},
-        {"nvPath"  , required_argument, NULL, 'n'}
+        {"data"  , required_argument, NULL, 'i'},
+        {"nvPath"  , required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("d:n:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -42,30 +42,29 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.nvPath) {
-        fprintf (stderr, "No NV path provided, use --nvPath=\n");
+        fprintf (stderr, "No NV path provided, use --nvPath\n");
         return -1;
     }
     if (!ctx.data) {
-        fprintf (stderr, "No file for output provided, use --data=[filename or"\
-            " '-' for standard output]\n");
+        fprintf (stderr, "No file for output provided, use --data\n");
         return -1;
     }
 
     /* Read data file */
-    uint8_t *input;
-    size_t input_len;
-    TSS2_RC r = open_read_and_close (ctx.data, (void**)&input, &input_len);
+    uint8_t *data;
+    size_t data_len;
+    TSS2_RC r = open_read_and_close (ctx.data, (void**)&data, &data_len);
     if (r) {
-        LOG_PERR ("open_read_and_close input", r);
+        LOG_PERR ("open_read_and_close data", r);
         return 1;
     }
 
     /* Execute FAPI command with passed arguments */
-    r = Fapi_NvWrite(fctx, ctx.nvPath, input, input_len);
+    r = Fapi_NvWrite(fctx, ctx.nvPath, data, data_len);
     if (r != TSS2_RC_SUCCESS){
         LOG_PERR ("Fapi_NvWrite", r);
         return 1;
     }
-    Fapi_Free (input);
+    Fapi_Free (data);
     return 0;
 }

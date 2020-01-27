@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-c**, **\--pcrValue**:
+  * **-o**, **\--pcrValue**:
 
     Returns PCR digest. MAY be NULL.
 
-  * **-i**, **\--pcrIndex**:
+  * **-x**, **\--pcrIndex**:
 
     Identifies the PCR to read.
 

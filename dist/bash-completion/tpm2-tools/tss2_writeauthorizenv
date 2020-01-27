@@ -8,19 +8,13 @@ _tss2_writeauthorizenv()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)n | --nvPath)
-            _filedir
-            COMPREPLY+=( '-' )
-            return;;
-        -!(-*)l | --policyPath )
-            _filedir
-            COMPREPLY+=( '-' )
+        -!(-*)[pP] | --nvPath | --policyPath)
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --nvPath= -n -policyPath= -l" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --nvPath -p -policyPath -P" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_writeauthorizenv tss2_writeauthorizenv

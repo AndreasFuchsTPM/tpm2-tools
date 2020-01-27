@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-k**, **\--keyPath**=:
+  * **-p**, **\--keyPath**:
 
     Identifies the decryption key. MUST NOT be NULL.
 
-  * **-c**, **\--cipherText**: \<filename\>
+  * **-i**, **\--cipherText**: \<filename\>
 
     The JSON-encoded cipherText. MUST NOT be NULL.
 
@@ -30,7 +30,7 @@ These are the available options:
 
     Force Overwriting the output file.
 
-  * **-p**, **\--plainText**: \<filename\>
+  * **-o**, **\--plainText**: \<filename\>
 
     Returns the decrypted data. MAY be NULL.
 
@@ -38,7 +38,7 @@ These are the available options:
 
 # EXAMPLE
 
-    tss2_decrypt --keyPath HS/SRK/myRSACrypt --cipherText=encrypted.file --plainText=-
+    tss2_decrypt --keyPath HS/SRK/myRSACrypt --cipherText encrypted.file --plainText abc
 
 # RETURNS
 

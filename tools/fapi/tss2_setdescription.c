@@ -16,7 +16,7 @@ static struct cxt {
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'd':
+    case 'i':
         if (value && strlen (value) > 1023) {
             fprintf (stderr, "The description can be at most 1023 octets\n");
             return false;
@@ -33,10 +33,10 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"description", required_argument, NULL, 'd'},
+        {"description", required_argument, NULL, 'i'},
         {"path"       , required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("d:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("i:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -44,11 +44,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path is missing, use --path=\n");
+        fprintf (stderr, "path is missing, use --path\n");
         return -1;
     }
     if (!ctx.description) {
-        fprintf (stderr, "description is missing, use --description=\n");
+        fprintf (stderr, "description is missing, use --description\n");
         return -1;
     }
 

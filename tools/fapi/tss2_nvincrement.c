@@ -13,7 +13,7 @@ static char const *nvPath;
 /* Parse command line parameters */
 static bool on_option(char key, char *value) {
     switch (key) {
-    case 'n':
+    case 'p':
         nvPath = value;
         break;
     }
@@ -23,9 +23,9 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"nvPath", required_argument, NULL, 'n'}
+        {"nvPath", required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("n:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -33,7 +33,7 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!nvPath) {
-        fprintf (stderr, "No path to the NV provided, use --nvPath=\n");
+        fprintf (stderr, "No path to the NV provided, use --nvPath\n");
         return -1;
     }
 

@@ -18,7 +18,7 @@
 
 These are the availabe options:
 
-  * **-n**, **\--nvPath**=:
+  * **-p**, **\--nvPath**:
 
     Identifies the NV space to increment. MUST NOT be NULL.
 

@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     Identifies the entity to be associated with the certificate. MUST NOT be NULL.
 
-  * **-x**, **\--x509certData**:
+  * **-i**, **\--x509certData**:
 
     The PEM encoded certificate. MAY be NULL. If x509certData is NULL then the stored x509 certificate SHALL be removed.
 

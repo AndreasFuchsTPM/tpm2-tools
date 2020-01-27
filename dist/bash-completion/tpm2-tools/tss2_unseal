@@ -8,7 +8,7 @@ _tss2_unseal()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)d | --data)
+        -!(-*)o | --data)
             _filedir
             COMPREPLY+=( '-' )
             return;;
@@ -18,7 +18,7 @@ _tss2_unseal()
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --data= -d --path= -p" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --data -o --path -p" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_unseal tss2_unseal

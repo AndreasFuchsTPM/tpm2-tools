@@ -22,11 +22,11 @@ These are the available options:
 
     The data that was signed, already hashed. MUST NOT be NULL
 
-  * **-k**, **\--keyPath**:
+  * **-p**, **\--keyPath**:
 
     Path to the verification public key. MUST NOT be NULL.
 
-  * **-s**, **\--signature**:
+  * **-i**, **\--signature**:
 
     The signature to be verified. MUST NOT be NULL.
 

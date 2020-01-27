@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-d**, **\--data**:
+  * **-i**, **\--data**:
 
     The data to be extended into the NV space. MUST NOT be NULL.
 
-  * **-n**, **\--nvPath**:
+  * **-p**, **\--nvPath**:
 
     Identifies the NV space to write. MUST NOT be NULL.
 

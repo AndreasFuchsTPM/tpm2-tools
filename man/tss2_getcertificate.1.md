@@ -22,11 +22,11 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The entity whose certificate is requested. MUST NOT be NULL.
 
-  * **-x**, **\--x509certData**:
+  * **-o**, **\--x509certData**:
 
     Returns the PEM encoded certificate. MUST NOT be NULL. If no certificate is stored, then an empty string is returned.
 

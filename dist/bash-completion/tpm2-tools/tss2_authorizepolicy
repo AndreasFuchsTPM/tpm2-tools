@@ -8,14 +8,18 @@ _tss2_authorizepolicy()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[pkr] | --policyPath | --keyPath  | --policyRef)
+        -!(-*)[r] | --policyRef)
+            _filedir
+            COMPREPLY+=( '-' )
+            return;;
+        -!(-*)[Pp] | --policyPath | --keyPath )
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --policyPath= -p
-      --keyPath=  -k --policyRef=  -r" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --policyPath -P
+      --keyPath -p --policyRef -r" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_authorizepolicy tss2_authorizepolicy

@@ -35,7 +35,7 @@ static bool on_option(char key, char *value) {
     case 't':
         ctx.keyType = value;
         break;
-    case 'd':
+    case 'i':
         ctx.data = value;
         break;
     }
@@ -49,9 +49,9 @@ bool tss2_tool_onstart(tpm2_options **opts) {
         {"type",        required_argument, NULL, 't'},
         {"policyPath",  required_argument, NULL, 'P'},
         {"authValue",    optional_argument, NULL, 'a'},
-        {"data"       , required_argument, NULL, 'd'}
+        {"data"       , required_argument, NULL, 'i'}
     };
-    return (*opts = tpm2_options_new ("a:p:P:t:d:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("a:p:P:t:i:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -59,17 +59,17 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.keyPath) {
-        fprintf (stderr, "key path missing, use --path=\n");
+        fprintf (stderr, "key path missing, use --path\n");
         free (ctx.authValue);
         return -1;
     }
     if (!ctx.keyType) {
-        fprintf (stderr, "key type missing, use --type=\n");
+        fprintf (stderr, "key type missing, use --type\n");
         free (ctx.authValue);
         return -1;
     }
     if (!ctx.data) {
-        fprintf (stderr, "data to seal missing, use --data=\n");
+        fprintf (stderr, "data to seal missing, use --data\n");
         free (ctx.authValue);
         return -1;
     }

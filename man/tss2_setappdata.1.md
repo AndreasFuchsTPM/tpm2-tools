@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     Path of the object for which the appData will be stored. MUST NOT be NULL.
 
-  * **-a**, **\--appData**=:
+  * **-i**, **\--appData**:
 
     The data to be stored. MAY be NULL.
 

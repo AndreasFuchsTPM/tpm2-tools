@@ -18,11 +18,15 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-f**, **\--force**:
+
+    Force overwriting the output file.
+
+  * **-p**, **\--path**:
 
     The path of the object for which the appData will be loaded. MUST NOT be NULL.
 
-  * **-d**, **\--description**=:
+  * **-o**, **\--description**:
 
     Returns the stored description. MUST NOT be NULL.
 

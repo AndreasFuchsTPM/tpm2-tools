@@ -18,11 +18,11 @@
 
 These are the availabe options:
 
-  * **-b**, **\--bitmap**==\<number\>:
+  * **-i**, **\--bitmap**:
 
     A mask indicating which bits to set in the NV space.
 
-  * **-n**, **\--nvPath**=:
+  * **-p**, **\--nvPath**:
 
     Identifies the NV space to write. MUST NOT be NULL.
 

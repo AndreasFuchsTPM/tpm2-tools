@@ -18,13 +18,13 @@
 
 These are the available options:
 
-  * **-k**, **\--keyPath**=:
+  * **-p**, **\--keyPath**:
 
     The path to the signing key. MUST NOT be NULL.
 
-  * **-P**, **\--padding**:
+  * **-s**, **\--padding**:
 
-    The padding algorithm used. Possible values are “RSA_SSA”, “RSA_PSS” (case insensitive). MAY be NULL.
+    The padding scheme used. Possible values are “RSA_SSA”, “RSA_PSS” (case insensitive). MAY be NULL.
 
   * **-c**, **\--certificate**:
 
@@ -38,11 +38,11 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-p**, **\--publicKey**:
+  * **-k**, **\--publicKey**:
 
     The public key associated with keyPath in PEM format. MAY be NULL.
 
-  * **-s**, **\--signature**:
+  * **-o**, **\--signature**:
 
     Returns the signature in binary form. MUST NOT be NULL.
 

@@ -9,13 +9,12 @@ _tss2_delete()
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
         -!(-*)p | --path)
-            COMPREPLY=( $(compgen -W "$(tss2_list --path=$cur)" -- $cur))
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version -p --path=" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version -p --path" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_delete tss2_delete

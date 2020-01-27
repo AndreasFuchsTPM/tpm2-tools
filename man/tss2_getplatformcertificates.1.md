@@ -12,7 +12,7 @@
 
 # DESCRIPTION
 
-**tss2_getplatformcertificates**(1) - This command returns the set of Platform certificates concatenated in a continuous buffer if the platform provides platform certificates. Platform certificates for TPM 2.0 can consist not only of a single certificate but also a series of so-called delta certificates.
+**tss2_getplatformcertificates**(1) - This command returns the set of platform certificates concatenated in a continuous buffer if the platform provides platform certificates. Platform certificates for TPM 2.0 can consist not only of a single certificate but also a series of so-called delta certificates.
 
 # OPTIONS
 
@@ -22,7 +22,7 @@ These are the available options:
 
     Force overwriting the output file.
 
-  * **-c**, **\--certificates**:
+  * **-o**, **\--certificates**:
 
     Returns a continuous buffer containing the concatenated platform certificates. MUST NOT be NULL.
 

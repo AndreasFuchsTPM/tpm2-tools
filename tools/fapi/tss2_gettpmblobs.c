@@ -57,19 +57,19 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.path) {
-        fprintf (stderr, "path missing, use --path=\n");
+        fprintf (stderr, "path missing, use --path\n");
         return -1;
     }
     if (!ctx.tpm2bPublic) {
-        fprintf (stderr, "public missing, use --tpm2bPublic=\n");
+        fprintf (stderr, "public missing, use --tpm2bPublic\n");
         return -1;
     }
     if (!ctx.tpm2bPrivate) {
-        fprintf (stderr, "private missing, use --tpm2bPrivate=\n");
+        fprintf (stderr, "private missing, use --tpm2bPrivate\n");
         return -1;
     }
     if (!ctx.policy) {
-        fprintf (stderr, "policy missing, use --policy=\n");
+        fprintf (stderr, "policy missing, use --policy\n");
         return -1;
     }
 

@@ -18,11 +18,11 @@
 
 These are the available options:
 
-  * **-d**, **\--description**:
+  * **-i**, **\--description**:
 
     The data to be stored as description for the object. MAY be NULL.
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The path of the object for which the description will be stored. MUST NOT be NULL.
 

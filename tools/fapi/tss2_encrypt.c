@@ -23,16 +23,16 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'p':
+    case 'P':
         ctx.policyPath = value;
         break;
-    case 'c':
+    case 'o':
         ctx.cipherText = value;
         break;
-    case 'k':
+    case 'p':
         ctx.keyPath = value;
         break;
-    case 'P':
+    case 'i':
         ctx.plainText = value;
         break;
     }
@@ -42,13 +42,13 @@ static bool on_option(char key, char *value) {
 /* Define possible commandline parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"keyPath",     required_argument, NULL, 'k'},
-        {"policyPath",  required_argument, NULL, 'p'},
-        {"plainText",   required_argument, NULL, 'P'},
-        {"cipherText",  required_argument, NULL, 'c'},
+        {"keyPath",     required_argument, NULL, 'p'},
+        {"policyPath",  required_argument, NULL, 'P'},
+        {"plainText",   required_argument, NULL, 'i'},
+        {"cipherText",  required_argument, NULL, 'o'},
         {"force",       no_argument      , NULL, 'f'},
     };
-    return (*opts = tpm2_options_new ("f:p:c:k:P:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:P:o:p:i:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -56,17 +56,15 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.keyPath) {
-        fprintf (stderr, "No key path provided, use --keyPath=\n");
+        fprintf (stderr, "No key path provided, use --keyPath\n");
         return -1;
     }
     if (!ctx.plainText) {
-        fprintf (stderr, "No text to encrypt provided, use --plainText=[file" \
-            ", or '-' for standard input]\n");
+        fprintf (stderr, "No text to encrypt provided, use --plainText\n");
         return -1;
     }
     if (!ctx.cipherText) {
-        fprintf (stderr, "No output file provided, --cipherText=[file, or " \
-            "'-' for standard output]\n");
+        fprintf (stderr, "No output file provided, --cipherText\n");
         return -1;
     }
 

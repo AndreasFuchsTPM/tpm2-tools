@@ -18,7 +18,7 @@
 
 These are the available options:
 
-  * **-p**, **\--path**=:
+  * **-p**, **\--path**:
 
     The path to the new key. MUST NOT be NULL.
 
@@ -26,7 +26,7 @@ These are the available options:
 
     Identifies the intended usage. For possible values see FAPI specification. MAY be NULL.
 
-  * **-l**, **\--policyPath**:
+  * **-P**, **\--policyPath**:
 
     The policy to be associated with the new key. policyPath MAY be NULL. If NULL then no policy will be associated with the key.
 
@@ -50,7 +50,7 @@ tss2_createkey --path HS/SRK/myRsaCryptKey --type "noDa, decrypt" --authValue
 
 ## Create a key with password “abc”.
 ```
-tss2_createkey --path HS/SRK/myRsaCryptKey --type "noDa, decrypt" --authValue=abc
+tss2_createkey --path HS/SRK/myRsaCryptKey --type "noDa, decrypt" --authValue abc
 ```
 
 # RETURNS

@@ -26,7 +26,7 @@ An application using Fapi_VerifyQuote() will further have to
 
 These are the available options:
 
-  * **-q**, **\--qualifyingData**:
+  * **-Q**, **\--qualifyingData**:
 
     A nonce provided by the caller to ensure freshness of the signature. MAY be NULL.
 
@@ -34,15 +34,15 @@ These are the available options:
 
     Returns the PCR log for the chosen PCR in the format defined in the FAPI specification. MAY be NULL.
 
-  * **-i**, **\--quoteInfo**:
+  * **-q**, **\--quoteInfo**:
 
     The JSON-encoded structure holding the inputs to the quote operation. This includes the digest value and PCR values. MUST NOT be NULL.
 
-  * **-p**, **\--publicKeyPath**=:
+  * **-k**, **\--publicKeyPath**:
 
     Identifies the signing key. MUST NOT be NULL. MAY be a path to the public key hierarchy /ext.
 
-  * **-s**, **\--signature**:
+  * **-i**, **\--signature**:
 
     The signature over the quoted material. MUST NOT be NULL.
 

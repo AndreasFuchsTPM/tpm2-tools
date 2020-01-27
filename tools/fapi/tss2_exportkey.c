@@ -23,10 +23,10 @@ static bool on_option(char key, char *value) {
     case 'f':
         ctx.overwrite = true;
         break;
-    case 'P':
+    case 'e':
         ctx.pathToPublicKeyOfNewParent = value;
         break;
-    case 'e':
+    case 'o':
         ctx.exportedData = value;
         break;
     case 'p':
@@ -39,12 +39,12 @@ static bool on_option(char key, char *value) {
 /* Define possible command line parameters */
 bool tss2_tool_onstart(tpm2_options **opts) {
     struct option topts[] = {
-        {"pathToPublicKeyOfNewParent",  required_argument, NULL, 'P'},
+        {"pathToPublicKeyOfNewParent",  required_argument, NULL, 'e'},
         {"force",                       no_argument      , NULL, 'f'},
-        {"exportedData",                required_argument, NULL, 'e'},
+        {"exportedData",                required_argument, NULL, 'o'},
         {"pathOfKeyToDuplicate",        required_argument, NULL, 'p'}
     };
-    return (*opts = tpm2_options_new ("f:P:e:p:", ARRAY_LEN(topts), topts,
+    return (*opts = tpm2_options_new ("f:e:o:p:", ARRAY_LEN(topts), topts,
                                       on_option, NULL, 0)) != NULL;
 }
 
@@ -52,11 +52,11 @@ bool tss2_tool_onstart(tpm2_options **opts) {
 int tss2_tool_onrun (FAPI_CONTEXT *fctx) {
     /* Check availability of required parameters */
     if (!ctx.exportedData) {
-        fprintf (stderr, "exported data missing, use --output=\n");
+        fprintf (stderr, "exported data missing, use --output\n");
         return -1;
     }
     if (!ctx.pathOfKeyToDuplicate) {
-        fprintf (stderr, "path of key to duplicate missing, use --path=\n");
+        fprintf (stderr, "path of key to duplicate missing, use --path\n");
         return -1;
     }
 

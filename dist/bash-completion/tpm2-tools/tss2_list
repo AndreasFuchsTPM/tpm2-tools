@@ -8,14 +8,18 @@ _tss2_list()
         -!(-*)h | --help)
             COMPREPLY=( $(compgen -W "man no-man" -- "$cur") )
             return;;
-        -!(-*)[ps] | --pathList | searchPath )
+        -!(-*)[p] | --searchPath)
+            return;;
+        -!(-*)[o] | --pathList)
+            _filedir
+            COMPREPLY+=( '-' )
             return;;
     esac
 
     $split && return
 
-    COMPREPLY=( $(compgen -W "-h --help -v --version --pathList -p
-    --searchPath -s" -- "$cur") )
+    COMPREPLY=( $(compgen -W "-h --help -v --version --pathList -o
+    --searchPath -p" -- "$cur") )
     [[ $COMPREPLY == *= ]] && compopt -o nospace
 } &&
 complete -F _tss2_list tss2_list
