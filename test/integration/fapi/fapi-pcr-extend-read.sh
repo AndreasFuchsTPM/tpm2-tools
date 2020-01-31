@@ -17,10 +17,10 @@ trap cleanup EXIT
 NV_PATH=/nv/Owner/myNVwrite
 PCR_DIGEST_FILE=$TEMP_DIR/pcr_digest.file
 PCR_LOG_FILE_WRITE=$TEMP_DIR/pcr_log_write.file
-echo "abcdefghijklmnopqrstuvwxyz" > $PCR_LOG_FILE_WRITE
+echo "{\"test\": \"myfile\"}" > $PCR_LOG_FILE_WRITE
 PCR_LOG_FILE_READ=$TEMP_DIR/pcr_log_read.file
 PCR_EVENT_DATA=$TEMP_DIR/pcr_event_data.file
-echo "abcdefghijklmnopqrstuvwxyz" > $PCR_EVENT_DATA
+echo "0,1,2,3,4,5,6,7,8,9" > $PCR_EVENT_DATA
 
 tss2_provision
 
