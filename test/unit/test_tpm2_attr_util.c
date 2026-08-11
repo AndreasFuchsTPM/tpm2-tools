@@ -181,18 +181,18 @@ test_nv_attrtostr(0x400000, "<reserved(22)>")  //bit 22 - reserved
 test_nv_attrtostr(0x800000, "<reserved(23)>")  //bit 23- reserved
 test_nv_attrtostr(0x1000000, "<reserved(24)>") //bit 24- reserved
 
-test_nv_attrtostr(0x30, "nt=0x3") //bit 24- reserved
-test_nv_attrtostr(0x90, "nt=0x9") //bit 24- reserved
+test_nv_attrtostr(0x10, "counter") //bit 24- reserved
+test_nv_attrtostr(0x90, "pinpass") //bit 24- reserved
 
 #define NV_ALL_FIELDS \
-        "ppwrite|ownerwrite|authwrite|policywrite|nt=0xF|<reserved(8)>"  \
+        "ppwrite|ownerwrite|authwrite|policywrite|<reserved(8)>"  \
         "|<reserved(9)>|policydelete|writelocked|writeall|writedefine"   \
         "|write_stclear|globallock|ppread|ownerread|authread|policyread" \
         "|<reserved(20)>|<reserved(21)>|<reserved(22)>|<reserved(23)>"   \
         "|<reserved(24)>|no_da|orderly|clear_stclear|readlocked|written" \
         "|platformcreate|read_stclear"
 
-test_nv_attrtostr(0xFFFFFFFF, NV_ALL_FIELDS);
+test_nv_attrtostr(0xFFFFFF0F, NV_ALL_FIELDS);
 
 #define test_nv_attrtostr_compound(id, value, expected) \
     static void test_tpm2_nv_util_attrtostr_##id(void **state) { \
@@ -201,6 +201,7 @@ test_nv_attrtostr(0xFFFFFFFF, NV_ALL_FIELDS);
     \
         TPMA_NV attrs = value; \
         char *str = tpm2_attr_util_nv_attrtostr(attrs); \
+        assert_non_null(str); \
         assert_string_equal(str, expected); \
     \
         free(str); \
@@ -209,11 +210,11 @@ test_nv_attrtostr(0xFFFFFFFF, NV_ALL_FIELDS);
 test_nv_attrtostr_compound(stclear_ppwrite,
         TPMA_NV_WRITE_STCLEAR | TPMA_NV_PPWRITE, "ppwrite|write_stclear")
 test_nv_attrtostr_compound(stclear_ppwrite_0x30,
-        TPMA_NV_WRITE_STCLEAR | TPMA_NV_PPWRITE | 0x30,
-        "ppwrite|nt=0x3|write_stclear")
+        TPMA_NV_WRITE_STCLEAR | TPMA_NV_PPWRITE | 0x10,
+        "ppwrite|counter|write_stclear")
 test_nv_attrtostr_compound(platformcreate_ownerread_nt_0x90_0x20000,
         TPMA_NV_PLATFORMCREATE | TPMA_NV_AUTHWRITE | 0x90 | 0x200000,
-        "authwrite|nt=0x9|<reserved(21)>|platformcreate")
+        "authwrite|pinpass|<reserved(21)>|platformcreate")
 
 /*
  * TPMA_OBJECT Tests
@@ -324,6 +325,10 @@ static void test_tpm2_attr_util_obj_strtoattr_token_unknown(void **state) {
     char arg1[] = "foo";
     res = tpm2_attr_util_obj_strtoattr(arg1, &objattrs);
     assert_false(res);
+
+    char arg2[] = "fixedtpm=1";
+    res = tpm2_attr_util_obj_strtoattr(arg2, &objattrs);
+    assert_false(res);
 }
 
 static void test_tpm2_attr_util_obj_from_optarg_good(void **state) {
@@ -401,7 +406,7 @@ int main(int argc, char* argv[]) {
             test_nv_attrtostr_get(TPMA_NV_PLATFORMCREATE),
             test_nv_attrtostr_get(TPMA_NV_READ_STCLEAR),
             test_nv_attrtostr_get(0),
-            test_nv_attrtostr_get(0xFFFFFFFF),
+            test_nv_attrtostr_get(0xFFFFFF0F),
             test_nv_attrtostr_get(0x100),     // bit 8 - reserved
             test_nv_attrtostr_get(0x200),     // bit 9 - reserved
             test_nv_attrtostr_get(0x100000),  //bit 20 - reserved
@@ -409,8 +414,8 @@ int main(int argc, char* argv[]) {
             test_nv_attrtostr_get(0x400000),  //bit 22 - reserved
             test_nv_attrtostr_get(0x800000),  //bit 23- reserved
             test_nv_attrtostr_get(0x1000000), //bit 24- reserved
-            test_nv_attrtostr_get(0x30), //nt=0x3
-            test_nv_attrtostr_get(0x90), //nt=0x9
+            test_nv_attrtostr_get(0x10), //counter
+            test_nv_attrtostr_get(0x90), //pinpass
             test_nv_attrtostr_get(stclear_ppwrite),
             test_nv_attrtostr_get(stclear_ppwrite_0x30),
             test_nv_attrtostr_get(platformcreate_ownerread_nt_0x90_0x20000),
